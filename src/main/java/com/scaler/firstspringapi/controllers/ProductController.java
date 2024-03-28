@@ -1,11 +1,9 @@
 package com.scaler.firstspringapi.controllers;
 
+import com.scaler.firstspringapi.dtos.FakeStoreProductDto;
 import com.scaler.firstspringapi.models.Product;
 import com.scaler.firstspringapi.services.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,4 +24,7 @@ public class ProductController {
     public Product getProductById(@PathVariable("id") Long id){
         return productService.getProductById(id);
     }
+
+    @PostMapping()
+    public Product createProduct(@RequestBody FakeStoreProductDto fakeStoreProductDto){ return  productService.createProduct( fakeStoreProductDto);}
 }

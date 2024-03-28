@@ -19,13 +19,16 @@ public class FakeStoreProductService implements ProductService{
 
     private Product convertFakeStoreDtoToProduct(FakeStoreProductDto dto){
         Product product = new Product();
+
         product.setId(dto.getId());
         product.setDesc(dto.getDesc());
         product.setTitle(dto.getTitle());
         product.setPrice(dto.getPrice());
         product.setImage(dto.getImage());
         Category category = new Category();
+        System.out.println("l28");
         category.setDesc(dto.getCategory());
+        System.out.println("l30");
         product.setCategory(category);
         return  product;
     }
@@ -48,10 +51,28 @@ public class FakeStoreProductService implements ProductService{
         fakeStoreProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products/", FakeStoreProductDto[].class);
         //convert from response to product object
         List<Product> products = new ArrayList<>();
-        for (FakeStoreProductDto f :fakeStoreProductDtos){
-            products.add(convertFakeStoreDtoToProduct(f));
+        if (fakeStoreProductDtos != null) {
+            for (FakeStoreProductDto f :fakeStoreProductDtos){
+                products.add(convertFakeStoreDtoToProduct(f));
+            }
+            return  products;
         }
 
-        return products;
+        return null;
+    }
+
+    @Override
+    public Product createProduct(FakeStoreProductDto fakeStoreProductDto) {
+        //convert to fakestore requestDto format
+
+        //call fakestore API
+        System.out.println("here");
+
+        FakeStoreProductDto response =restTemplate.postForObject("https://fakestoreapi.com/products/",fakeStoreProductDto, FakeStoreProductDto.class);
+        //convert to Product object
+        if (response != null) {
+            return convertFakeStoreDtoToProduct(response);
+        }
+        return null;
     }
 }
