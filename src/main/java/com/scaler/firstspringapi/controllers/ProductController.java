@@ -27,4 +27,7 @@ public class ProductController {
 
     @PostMapping()
     public Product createProduct(@RequestBody FakeStoreProductDto fakeStoreProductDto){ return  productService.createProduct( fakeStoreProductDto);}
+
+    @PutMapping("/{id}")
+    public Product replaceProduct(@PathVariable("id") Long id,@RequestBody Product product){ return  productService.replaceProduct(id,product);}
 }

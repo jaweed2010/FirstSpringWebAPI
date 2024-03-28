@@ -10,4 +10,6 @@ public interface ProductService {
     List<Product> getAllProducts();
 
     Product createProduct(FakeStoreProductDto fakeStoreProductDto);
+
+    Product replaceProduct(Long id, Product product);
 }
