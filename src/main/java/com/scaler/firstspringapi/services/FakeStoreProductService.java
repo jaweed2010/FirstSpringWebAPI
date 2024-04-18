@@ -25,22 +25,22 @@ public class FakeStoreProductService implements ProductService{
         Product product = new Product();
 
         product.setId(dto.getId());
-        product.setDesc(dto.getDesc());
+        product.setDescription(dto.getDesc());
         product.setTitle(dto.getTitle());
         product.setPrice(dto.getPrice());
         product.setImage(dto.getImage());
         Category category = new Category();
-        category.setDesc(dto.getCategory());
+        category.setTitle(dto.getCategory());
         product.setCategory(category);
         return  product;
     }
     private  FakeStoreProductDto convertProductToFakeStoreDto(Product product){
         FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
-        fakeStoreProductDto.setDesc(product.getDesc());
+        fakeStoreProductDto.setDesc(product.getDescription());
         fakeStoreProductDto.setTitle(product.getTitle());
         fakeStoreProductDto.setPrice(product.getPrice());
         fakeStoreProductDto.setImage(product.getImage());
-        fakeStoreProductDto.setCategory(product.getCategory().getDesc());
+        fakeStoreProductDto.setCategory(product.getCategory().getTitle());
         return fakeStoreProductDto;
     }
     @Override
