@@ -1,6 +1,7 @@
 package com.scaler.firstspringapi.controllers;
 
-import com.scaler.firstspringapi.dtos.FakeStoreProductDto;
+import com.scaler.firstspringapi.exceptions.NoProductsException;
+import com.scaler.firstspringapi.exceptions.ProductAlreadyExistsException;
 import com.scaler.firstspringapi.exceptions.ProductNotFoundException;
 import com.scaler.firstspringapi.models.Product;
 import com.scaler.firstspringapi.services.ProductService;
@@ -20,19 +21,23 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<Product> getAllProducts(){
+    public List<Product> getAllProducts() throws NoProductsException {
         return productService.getAllProducts();
     }
 
     @GetMapping({"/{id}"})
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
         Product product = productService.getProductById(id);
-    ResponseEntity<Product> responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
-        return responseEntity;
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 // TODO Request Body is different from Deppak's
     @PostMapping()
-    public Product createProduct(@RequestBody Product product){ return  productService.createProduct( product);}
+
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) throws ProductAlreadyExistsException {
+        Product savedProduct =productService.createProduct( product);
+        return new ResponseEntity<>(savedProduct,HttpStatus.CREATED);
+
+    }
 
     @PutMapping("/{id}")
     public Product replaceProduct(@PathVariable("id") Long id,@RequestBody Product product){ return  productService.replaceProduct(id,product);}

@@ -2,6 +2,8 @@ package com.scaler.firstspringapi.exceptionhandler;
 
 import com.scaler.firstspringapi.dtos.ExceptionDto;
 import com.scaler.firstspringapi.dtos.ProductNotFoundExceptionDto;
+import com.scaler.firstspringapi.exceptions.NoProductsException;
+import com.scaler.firstspringapi.exceptions.ProductAlreadyExistsException;
 import com.scaler.firstspringapi.exceptions.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,23 @@ public class ExceptionHandlers {
     @ExceptionHandler(ArrayIndexOutOfBoundsException.class)
     public ResponseEntity<Void> handleArrayIndexOutOfBoundException() {
         ResponseEntity<Void> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return responseEntity;
+    }
+
+    @ExceptionHandler(ProductAlreadyExistsException.class)
+    public ResponseEntity<ExceptionDto> handleProductAlreadyExistsException() {
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("Already Exists");
+        exceptionDto.setResolution("Create product with new title");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto,HttpStatus.BAD_REQUEST);
+        return responseEntity;
+    }
+    @ExceptionHandler(NoProductsException.class)
+    public ResponseEntity<ExceptionDto> handleGenericException() {
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("No products in DB");
+        exceptionDto.setResolution("Create a new product");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto,HttpStatus.BAD_REQUEST);
         return responseEntity;
     }
 }

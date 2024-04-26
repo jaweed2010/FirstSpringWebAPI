@@ -1,6 +1,7 @@
 package com.scaler.firstspringapi.services;
 
 import com.scaler.firstspringapi.dtos.FakeStoreProductDto;
+import com.scaler.firstspringapi.exceptions.ProductAlreadyExistsException;
 import com.scaler.firstspringapi.exceptions.ProductNotFoundException;
 import com.scaler.firstspringapi.models.Category;
 import com.scaler.firstspringapi.models.Product;
