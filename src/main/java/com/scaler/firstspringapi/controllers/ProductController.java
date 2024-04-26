@@ -4,6 +4,7 @@ import com.scaler.firstspringapi.dtos.FakeStoreProductDto;
 import com.scaler.firstspringapi.exceptions.ProductNotFoundException;
 import com.scaler.firstspringapi.models.Product;
 import com.scaler.firstspringapi.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
-    ProductController(ProductService productService){
+    ProductController(@Qualifier("selfProductService") ProductService productService){
         this.productService=productService;
     }
 
@@ -29,10 +30,17 @@ public class ProductController {
     ResponseEntity<Product> responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
         return responseEntity;
     }
-
+// TODO Request Body is different from Deppak's
     @PostMapping()
-    public Product createProduct(@RequestBody FakeStoreProductDto fakeStoreProductDto){ return  productService.createProduct( fakeStoreProductDto);}
+    public Product createProduct(@RequestBody Product product){ return  productService.createProduct( product);}
 
     @PutMapping("/{id}")
     public Product replaceProduct(@PathVariable("id") Long id,@RequestBody Product product){ return  productService.replaceProduct(id,product);}
 }
+// TODO
+//createProduct
+//deleteProduct
+//updateProduct -> Partial Update (PATCH)
+//replaceProduct -> Replace (PUT)
+
+// TODO Exception handler here?

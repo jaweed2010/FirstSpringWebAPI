@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
     public RestTemplate restTemplate;
 
@@ -25,7 +25,7 @@ public class FakeStoreProductService implements ProductService{
         Product product = new Product();
 
         product.setId(dto.getId());
-        product.setDescription(dto.getDesc());
+        product.setDescription(dto.getDescription());
         product.setTitle(dto.getTitle());
         product.setPrice(dto.getPrice());
         product.setImage(dto.getImage());
@@ -36,7 +36,7 @@ public class FakeStoreProductService implements ProductService{
     }
     private  FakeStoreProductDto convertProductToFakeStoreDto(Product product){
         FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
-        fakeStoreProductDto.setDesc(product.getDescription());
+        fakeStoreProductDto.setDescription(product.getDescription());
         fakeStoreProductDto.setTitle(product.getTitle());
         fakeStoreProductDto.setPrice(product.getPrice());
         fakeStoreProductDto.setImage(product.getImage());
@@ -58,8 +58,8 @@ public class FakeStoreProductService implements ProductService{
     @Override
     public List<Product> getAllProducts() {
         //call fakestore API and return product details
-        FakeStoreProductDto[] fakeStoreProductDtos ;
-        fakeStoreProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products/", FakeStoreProductDto[].class);
+        FakeStoreProductDto[] fakeStoreProductDtos =
+                restTemplate.getForObject("https://fakestoreapi.com/products/", FakeStoreProductDto[].class);
         //convert from response to product object
         List<Product> products = new ArrayList<>();
         if (fakeStoreProductDtos != null) {
@@ -72,18 +72,13 @@ public class FakeStoreProductService implements ProductService{
         return null;
     }
 
+    public Product updateProduct(Long id, Product product) {
+        return null;
+    }
+   // TODO complete create Product
     @Override
-    public Product createProduct(FakeStoreProductDto fakeStoreProductDto) {
-        //convert to fakestore requestDto format
+    public Product createProduct(Product product) {
 
-        //call fakestore API
-        System.out.println("here");
-
-        FakeStoreProductDto response =restTemplate.postForObject("https://fakestoreapi.com/products/",fakeStoreProductDto, FakeStoreProductDto.class);
-        //convert to Product object
-        if (response != null) {
-            return convertFakeStoreDtoToProduct(response);
-        }
         return null;
     }
 
@@ -99,10 +94,13 @@ public class FakeStoreProductService implements ProductService{
         FakeStoreProductDto response =
                 restTemplate.execute("https://fakestoreapi.com/products/" + id, HttpMethod.PUT, requestCallback, responseExtractor);
         //convert to Product
-
+        // TODO returning null below which should not be the case
         if (response != null) {
             return convertFakeStoreDtoToProduct(response);
         }
         return  null;
+    }
+    public void deleteProduct(Long id){
+
     }
 }
